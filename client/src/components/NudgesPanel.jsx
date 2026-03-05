@@ -1,4 +1,5 @@
 import React from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
@@ -91,7 +92,7 @@ const NudgesPanel = () => {
   const visible = getVisibleNudges();
   const allDismissed = nudges.length > 0 && visible.length === 0;
 
-  return (
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
         <>
@@ -266,7 +267,8 @@ const NudgesPanel = () => {
           </motion.div>
         </>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 };
 

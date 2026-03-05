@@ -7,4 +7,10 @@ export default defineConfig({
   optimizeDeps: {
     include: ["pdfjs-dist"],
   },
+  test: {
+    globals: true,
+    environment: "jsdom",
+    setupFiles: "./src/test/setup.js",
+    css: false,
+  },
 });
