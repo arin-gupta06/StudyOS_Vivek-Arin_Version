@@ -36,7 +36,7 @@ import { useNudgeStore } from "../store/nudgeStore";
 import { useLayoutStore } from "../store/layoutStore";
 import NudgesPanel from "../components/NudgesPanel";
 
-const API = "http://localhost:5000/api/notes";
+const API = `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/notes`;
 const axiosCfg = { withCredentials: true };
 
 /* ───────── categories ───────── */

@@ -48,7 +48,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const API = "http://localhost:5000/api";
+const API = `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api`;
 const axiosCfg = { withCredentials: true };
 const uid = () =>
   Date.now().toString(36) + Math.random().toString(36).slice(2, 8);

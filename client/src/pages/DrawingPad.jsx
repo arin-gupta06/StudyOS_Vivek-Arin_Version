@@ -33,7 +33,7 @@ import {
 } from "lucide-react";
 import { useThemeStore } from "../store/themeStore";
 
-const API = "http://localhost:5000/api/sketches";
+const API = `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/sketches`;
 const ax = { withCredentials: true };
 
 /* ──────────── TOAST ──────────── */

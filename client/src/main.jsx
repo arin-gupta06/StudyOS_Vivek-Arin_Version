@@ -6,7 +6,7 @@ import App from './App.jsx'
 
 // Configure axios default for all requests
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = 'http://localhost:5000';
+axios.defaults.baseURL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

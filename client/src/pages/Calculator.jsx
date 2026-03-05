@@ -6,7 +6,7 @@ import { useAuth } from "../context/AuthContext";
 import { useLayoutStore } from "../store/layoutStore";
 import { History, Menu, Delete, Filter, PanelRightOpen, PanelRightClose } from "lucide-react";
 
-const API = "http://localhost:5000/api/calculator";
+const API = `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/calculator`;
 const axiosCfg = { withCredentials: true };
 
 /* ── safe math evaluator ── */

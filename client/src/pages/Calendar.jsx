@@ -29,7 +29,7 @@ import { useNudgeStore } from "../store/nudgeStore";
 import { useLayoutStore } from "../store/layoutStore";
 import NudgesPanel from "../components/NudgesPanel";
 
-const API = "http://localhost:5000/api/events";
+const API = `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/events`;
 const axiosCfg = { withCredentials: true };
 
 const MONTHS = [
