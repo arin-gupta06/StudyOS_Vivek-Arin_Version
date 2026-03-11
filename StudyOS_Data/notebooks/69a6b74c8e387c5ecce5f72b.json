@@ -1,0 +1,27 @@
+{
+  "_id": "69a6b74c8e387c5ecce5f72b",
+  "title": "Sorting & Searching Notes",
+  "blocks": [
+    {
+      "id": "mmagq82h",
+      "type": "text",
+      "html": ""
+    }
+  ],
+  "tags": [
+    {
+      "label": "Data Structures & Algorithms",
+      "bg": "bg-primary-light",
+      "color": "text-primary",
+      "_id": "69a6b74c8e387c5ecce5f72c"
+    },
+    {
+      "label": "Notes",
+      "bg": "bg-purple-100",
+      "color": "text-purple-500",
+      "_id": "69a6b74c8e387c5ecce5f72d"
+    }
+  ],
+  "savedAt": "2026-03-03T10:26:21.003Z",
+  "user": "arin"
+}

@@ -1,0 +1,27 @@
+{
+  "_id": "69a6c687215bfbc1f71263cf",
+  "title": "Linked Lists Notes",
+  "blocks": [
+    {
+      "id": "mmaj1slu",
+      "type": "text",
+      "html": ""
+    }
+  ],
+  "tags": [
+    {
+      "label": "Data Structures & Algorithms",
+      "bg": "bg-primary-light",
+      "color": "text-primary",
+      "_id": "69a6c687215bfbc1f71263d0"
+    },
+    {
+      "label": "Notes",
+      "bg": "bg-purple-100",
+      "color": "text-purple-500",
+      "_id": "69a6c687215bfbc1f71263d1"
+    }
+  ],
+  "savedAt": "2026-03-03T11:31:28.739Z",
+  "user": "alex"
+}

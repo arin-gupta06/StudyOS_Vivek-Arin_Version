@@ -1,0 +1,33 @@
+{
+  "_id": "69a957d1c14989bf80bb897c",
+  "title": "Arrays & Strings Notes",
+  "blocks": [
+    {
+      "id": "mmdb8bf6",
+      "type": "text",
+      "html": "heloo ever"
+    },
+    {
+      "id": "mmddbk2fdp8ev1",
+      "type": "code",
+      "language": "Java",
+      "code": "hii"
+    }
+  ],
+  "tags": [
+    {
+      "label": "Data Structures & Algorithms",
+      "bg": "bg-primary-light",
+      "color": "text-primary",
+      "_id": "69a957d1c14989bf80bb897d"
+    },
+    {
+      "label": "Notes",
+      "bg": "bg-purple-100",
+      "color": "text-purple-500",
+      "_id": "69a957d1c14989bf80bb897e"
+    }
+  ],
+  "savedAt": "2026-03-05T11:14:19.846Z",
+  "user": "Arin03213"
+}

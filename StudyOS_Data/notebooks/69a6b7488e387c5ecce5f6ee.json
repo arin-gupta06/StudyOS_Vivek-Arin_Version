@@ -1,0 +1,27 @@
+{
+  "_id": "69a6b7488e387c5ecce5f6ee",
+  "title": "Arrays & Strings Notes",
+  "blocks": [
+    {
+      "id": "mmagpvp9",
+      "type": "text",
+      "html": ""
+    }
+  ],
+  "tags": [
+    {
+      "label": "Data Structures & Algorithms",
+      "bg": "bg-primary-light",
+      "color": "text-primary",
+      "_id": "69a6b73c8e387c5ecce5f6ab"
+    },
+    {
+      "label": "Notes",
+      "bg": "bg-purple-100",
+      "color": "text-purple-500",
+      "_id": "69a6b73c8e387c5ecce5f6ac"
+    }
+  ],
+  "savedAt": "2026-03-03T10:26:19.521Z",
+  "user": "arin"
+}
