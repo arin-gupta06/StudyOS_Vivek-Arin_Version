@@ -7,11 +7,28 @@ const rateLimit = require("express-rate-limit");
 const app = express();
 
 const allowedOrigins = process.env.CORS_ORIGINS
-  ? process.env.CORS_ORIGINS.split(",")
+  ? process.env.CORS_ORIGINS.split(",").map((o) => o.trim())
   : ["http://localhost:5173", "http://localhost:5174"];
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Allow requests with no origin (mobile apps, curl, server-to-server)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.warn(`CORS blocked origin: ${origin}`);
+      callback(new Error(`Origin ${origin} not allowed by CORS`));
+    }
+  },
+  credentials: true,
+};
 
 // Security headers
 app.use(helmet());
+
+// Handle OPTIONS preflight for all routes before rate limiting
+app.options("/{*path}", cors(corsOptions));
 
 // Rate limiting — auth routes: 20 requests per 15 minutes per IP
 const authLimiter = rateLimit({
@@ -34,12 +51,7 @@ app.use((req, res, next) => {
 });
 app.use(express.urlencoded({ limit: "1mb", extended: true }));
 app.use(cookieParser());
-app.use(
-  cors({
-    origin: allowedOrigins,
-    credentials: true,
-  }),
-);
+app.use(cors(corsOptions));
 
 // Routes
 app.use("/api/auth", require("./routes/auth"));
