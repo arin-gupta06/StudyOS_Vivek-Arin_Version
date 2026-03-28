@@ -5,3 +5,5 @@ dist
 dist-ssr
 *.log
 .DS_Store
+StudyOS_Data/
+temp-test/

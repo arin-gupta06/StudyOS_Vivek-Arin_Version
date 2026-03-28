@@ -9,7 +9,7 @@ exports.getSubjects = async (req, res) => {
     });
     res.json(subjects);
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -20,7 +20,7 @@ exports.createSubject = async (req, res) => {
     const subject = await Subject.create({ user: req.user._id, ...req.body });
     res.status(201).json(subject);
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -36,7 +36,7 @@ exports.updateSubject = async (req, res) => {
     if (!subject) return res.status(404).json({ message: "Subject not found" });
     res.json(subject);
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -51,6 +51,6 @@ exports.deleteSubject = async (req, res) => {
     if (!subject) return res.status(404).json({ message: "Subject not found" });
     res.json({ message: "Subject deleted" });
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    res.status(500).json({ message: "Server error" });
   }
 };

@@ -10,7 +10,7 @@ exports.getNotes = async (req, res) => {
     });
     res.json(notes);
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -21,7 +21,7 @@ exports.createNote = async (req, res) => {
     const note = await Note.create({ user: req.user._id, ...req.body });
     res.status(201).json(note);
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -37,7 +37,7 @@ exports.updateNote = async (req, res) => {
     if (!note) return res.status(404).json({ message: "Note not found" });
     res.json(note);
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -52,6 +52,6 @@ exports.deleteNote = async (req, res) => {
     if (!note) return res.status(404).json({ message: "Note not found" });
     res.json({ message: "Note deleted" });
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    res.status(500).json({ message: "Server error" });
   }
 };

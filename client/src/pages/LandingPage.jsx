@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import av1 from "../assets/avatar/avatar_r1_c1_processed_by_imagy.jpg";
+import av2 from "../assets/avatar/avatar_r2_c2_processed_by_imagy.jpg";
+import av3 from "../assets/avatar/avatar_r3_c3_processed_by_imagy.jpg";
 import {
   BookOpen,
   Calendar,
@@ -118,7 +121,7 @@ function DashboardMockup() {
         </div>
 
         {/* Browser Body */}
-        <div className="p-1 flex h-[350px] bg-background">
+        <div className="p-1 flex h-87.5 bg-background">
            {/* Sidebar */}
            <div className="w-16 bg-surface m-2 mr-1 rounded-2xl border border-border flex flex-col items-center py-6 gap-6 shadow-sm">
               <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-emerald-200 dark:shadow-none">
@@ -227,57 +230,57 @@ const features = [
     icon: LayoutDashboard,
     title: "All-in-One Dashboard",
     desc: "Your entire academic life in one view. Track tasks, schedules, and goals without the clutter.",
-    bg: "bg-blue-100 dark:bg-blue-900/40",
-    color: "text-blue-600 dark:text-blue-400",
+    bg: "bg-blue-600",
+    color: "text-white",
   },
   {
     icon: Clock,
     title: "Focus Timer",
     desc: "A built-in Pomodoro timer that tracks your deep work sessions and blocks distractions automatically.",
-    bg: "bg-red-100 dark:bg-red-900/40",
-    color: "text-red-600 dark:text-red-400",
+    bg: "bg-red-500",
+    color: "text-white",
   },
   {
     icon: CheckSquare,
     title: "Smart Tasks",
     desc: "More than just a todo list. Organizes assignments by priority, subject, and looming deadlines.",
-    bg: "bg-emerald-100 dark:bg-emerald-900/40",
-    color: "text-emerald-600 dark:text-emerald-400",
+    bg: "bg-emerald-600",
+    color: "text-white",
   },
   {
     icon: Calendar,
     title: "Student Calendar",
     desc: "Synced with your tasks. Visualize exam dates and study blocks with a drag-and-drop interface.",
-    bg: "bg-purple-100 dark:bg-purple-900/40",
-    color: "text-purple-600 dark:text-purple-400",
+    bg: "bg-purple-600",
+    color: "text-white",
   },
   {
     icon: StickyNote,
     title: "Quick Notes",
     desc: "Capture ideas instantly. Sticky notes live on your dashboard for those 'aha!' moments.",
-    bg: "bg-yellow-100 dark:bg-yellow-900/40",
-    color: "text-yellow-600 dark:text-yellow-400",
+    bg: "bg-yellow-500",
+    color: "text-white",
   },
   {
     icon: Calculator,
     title: "Study Tools",
     desc: "Integrated scientific calculator and formula sheets so you never have to switch apps.",
-    bg: "bg-pink-100 dark:bg-pink-900/40",
-    color: "text-pink-600 dark:text-pink-400",
+    bg: "bg-pink-600",
+    color: "text-white",
   },
   {
     icon: Pencil,
     title: "Infinite Canvas",
     desc: "A whiteboard for your thoughts. Sketch diagrams, mind maps, and solve problems visually.",
-    bg: "bg-orange-100 dark:bg-orange-900/40",
-    color: "text-orange-600 dark:text-orange-400",
+    bg: "bg-orange-500",
+    color: "text-white",
   },
   {
     icon: Users,
     title: "Study Groups",
     desc: "Share notebooks and collaborate on study guides with classmates in real-time.",
-    bg: "bg-cyan-100 dark:bg-cyan-900/40",
-    color: "text-cyan-600 dark:text-cyan-400",
+    bg: "bg-cyan-600",
+    color: "text-white",
   },
 ];
 
@@ -311,10 +314,10 @@ export default function LandingPage() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2">
             <img src="/logo.jpeg" alt="Mantessa" className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl object-contain shadow-lg shadow-emerald-200 dark:shadow-none" />
             <span className="text-lg sm:text-xl font-bold tracking-tight text-text-main">Mantessa</span>
-          </div>
+          </Link>
 
           <div className="hidden md:flex items-center gap-8">
             {["Features", "Methodology", "Testimonials"].map((item) => (
@@ -398,14 +401,14 @@ export default function LandingPage() {
                className="text-center lg:text-left"
             >
               <motion.div variants={fadeUp}>
-                <span className="inline-block px-3 py-1 mb-6 text-xs font-bold tracking-wider text-emerald-700 dark:text-emerald-300 uppercase bg-emerald-100 dark:bg-emerald-900/30 rounded-full border border-emerald-200 dark:border-emerald-800/50">
+                <span className="inline-block px-3 py-1 mb-6 text-xs font-bold tracking-wider text-white uppercase bg-emerald-600 rounded-full">
                   v1.0 is now live
                 </span>
               </motion.div>
               
               <motion.h1 variants={fadeUp} className="text-3xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight text-text-main leading-[1.1] mb-4 sm:mb-6">
                 Master your <br/>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500">
+                <span className="text-transparent bg-clip-text bg-linear-to-r from-emerald-600 to-teal-500">
                   academic life.
                 </span>
               </motion.h1>
@@ -423,9 +426,9 @@ export default function LandingPage() {
                 </Link>
                 <div className="flex items-center gap-4 text-sm font-semibold text-text-secondary px-4">
                   <div className="flex -space-x-2">
-                     <div className="w-8 h-8 rounded-full border-2 border-background bg-slate-200 dark:bg-slate-600"></div>
-                     <div className="w-8 h-8 rounded-full border-2 border-background bg-slate-300 dark:bg-slate-500"></div>
-                     <div className="w-8 h-8 rounded-full border-2 border-background bg-slate-400 dark:bg-slate-400"></div>
+                     <img src={av1} className="w-8 h-8 rounded-full border-2 border-background object-cover" alt="student" />
+                     <img src={av2} className="w-8 h-8 rounded-full border-2 border-background object-cover" alt="student" />
+                     <img src={av3} className="w-8 h-8 rounded-full border-2 border-background object-cover" alt="student" />
                   </div>
                   <span>Trusted by 2,000+ students</span>
                 </div>
@@ -440,21 +443,67 @@ export default function LandingPage() {
         </section>
 
         {/* ── Logos / Trust ────────────────────────────────────────────── */}
-        <section className="py-8 sm:py-10 border-y border-border bg-surface/50 mb-16 sm:mb-32">
-           <div className="max-w-7xl mx-auto px-6 text-center">
-              <p className="text-sm font-bold text-text-muted uppercase tracking-widest mb-8">Powered by</p>
-              <div className="flex flex-wrap justify-center items-center gap-12 opacity-50 grayscale hover:grayscale-0 transition-all duration-500 text-text-main">
-                 {/* Placeholders for university logos - using text for now */}
+        <section className="py-14 sm:py-20 border-y border-border bg-surface/50 mb-16 sm:mb-32">
+          <AnimateWhenVisible>
+            <div className="max-w-3xl mx-auto px-6 text-center">
+              <p className="text-xs font-bold text-text-muted uppercase tracking-widest mb-8">Built & Maintained by</p>
 
-                               <span className="text-xl font-serif font-black">ChronalLabs </span>
+              {/* ChronalLabs card */}
+              <a
+                href="https://chronallab-site.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex flex-col items-center gap-2 mb-8"
+              >
+                <div className="flex items-center gap-3 px-6 py-3 rounded-2xl border border-border bg-bg hover:border-emerald-500/50 hover:bg-emerald-500/5 shadow-sm hover:shadow-emerald-500/10 hover:shadow-md transition-all duration-300">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-500/15 flex items-center justify-center">
+                    <Zap size={16} className="text-emerald-500" />
+                  </div>
+                  <span className="text-2xl font-serif font-black text-text-main group-hover:text-emerald-500 transition-colors duration-300">
+                    ChronalLabs
+                  </span>
+                  <ExternalLink size={14} className="text-text-muted group-hover:text-emerald-500 transition-colors duration-300" />
+                </div>
+                <span className="text-xs text-text-muted group-hover:text-emerald-500 transition-colors duration-300">
+                  chronallab-site.vercel.app
+                </span>
+              </a>
+
+              {/* Divider */}
+              <div className="flex items-center justify-center gap-3 mb-6">
+                <div className="h-px w-16 bg-border" />
+                <span className="text-xs text-text-muted uppercase tracking-widest">registered under</span>
+                <div className="h-px w-16 bg-border" />
               </div>
-           </div>
+
+              {/* Bytedu card */}
+              <a
+                href="https://byteedu.co.in/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex flex-col items-center gap-2"
+              >
+                <div className="flex items-center gap-3 px-5 py-2.5 rounded-xl border border-border bg-bg hover:border-blue-500/50 hover:bg-blue-500/5 shadow-sm hover:shadow-blue-500/10 hover:shadow-md transition-all duration-300">
+                  <div className="w-6 h-6 rounded-md bg-blue-500/15 flex items-center justify-center">
+                    <BookOpen size={13} className="text-blue-500" />
+                  </div>
+                  <span className="text-base font-bold text-text-secondary group-hover:text-blue-500 transition-colors duration-300">
+                    Bytedu Learning Platform
+                  </span>
+                  <ExternalLink size={12} className="text-text-muted group-hover:text-blue-500 transition-colors duration-300" />
+                </div>
+                <span className="text-xs text-text-muted group-hover:text-blue-500 transition-colors duration-300">
+                  byteedu.co.in
+                </span>
+              </a>
+            </div>
+          </AnimateWhenVisible>
         </section>
 
         {/* ── Features Grid ────────────────────────────────────────────── */}
         <section id="features" className="max-w-7xl mx-auto px-4 sm:px-6 mb-16 sm:mb-32">
           <div className="text-center mb-10 sm:mb-20">
-            <SectionLabel color="bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">Everything Included</SectionLabel>
+            <SectionLabel color="bg-emerald-600 text-white">Everything Included</SectionLabel>
             <h2 className="text-2xl sm:text-4xl font-extrabold text-text-main mb-4">
               More than just a todo list
             </h2>
@@ -506,7 +555,7 @@ export default function LandingPage() {
 
                  <div className="relative">
                     {/* Abstract shapes */}
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-emerald-500/30 rounded-full blur-3xl"></div>
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-75 h-75 bg-emerald-500/30 rounded-full blur-3xl"></div>
                     
                     {/* Simple UI Card Representation */}
                     <div className="bg-white/10 backdrop-blur-md border border-white/10 dark:border-white/5 rounded-2xl p-8 max-w-sm mx-auto shadow-2xl">
@@ -532,7 +581,7 @@ export default function LandingPage() {
         <section id="methodology" className="max-w-7xl mx-auto px-4 sm:px-6 mb-16 sm:mb-32">
            <div className="grid md:grid-cols-2 gap-16 items-center">
               <div>
-                 <SectionLabel color="bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">The Workflow</SectionLabel>
+                 <SectionLabel color="bg-emerald-600 text-white">The Workflow</SectionLabel>
                  <h2 className="text-2xl sm:text-4xl font-extrabold text-text-main mb-6">Designed for flow, not friction.</h2>
                  <p className="text-lg text-text-secondary mb-10">Mantessa gets out of your way so the only thing you have to focus on is your work.</p>
                  
@@ -554,7 +603,7 @@ export default function LandingPage() {
                     ))}
                  </div>
               </div>
-              <div className="bg-surface-hover rounded-2xl sm:rounded-[2rem] h-[300px] sm:h-[400px] md:h-[500px] relative overflow-hidden text-text-muted">
+              <div className="bg-surface-hover rounded-2xl sm:rounded-4xl h-75 sm:h-100 md:h-125 relative overflow-hidden text-text-muted">
                  {/* Decorative Illustration Area */}
                  <div className="absolute inset-0 flex items-center justify-center">
                     <div className="relative w-64 h-64">
@@ -634,7 +683,7 @@ export default function LandingPage() {
 
         {/* ── CTA ─────────────────────────────────────────────────────── */}
         <section className="max-w-5xl mx-auto px-4 sm:px-6 text-center pb-12 sm:pb-20">
-           <div className="bg-gradient-to-tr from-emerald-600 to-teal-600 rounded-2xl sm:rounded-3xl p-6 sm:p-12 md:p-20 text-white shadow-2xl shadow-emerald-200 dark:shadow-none relative overflow-hidden">
+           <div className="bg-linear-to-tr from-emerald-600 to-teal-600 rounded-2xl sm:rounded-3xl p-6 sm:p-12 md:p-20 text-white shadow-2xl shadow-emerald-200 dark:shadow-none relative overflow-hidden">
                {/* Decorative circles */}
                <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 dark:bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
                <div className="absolute bottom-0 left-0 w-64 h-64 bg-amber-400/20 dark:bg-amber-400/10 rounded-full translate-y-1/2 -translate-x-1/2 blur-3xl"></div>
@@ -658,21 +707,62 @@ export default function LandingPage() {
       </main>
 
       {/* ── Footer ────────────────────────────────────────────────────── */}
-      <footer className="bg-surface border-t border-border py-8 sm:py-12 px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-           <div className="flex items-center gap-2">
-              <img src="/logo.jpeg" alt="Mantessa" className="w-8 h-8 rounded-lg object-contain" />
-              <span className="font-bold text-text-main text-lg">Mantessa</span>
-           </div>
-           
-           <div className="flex gap-8 text-sm font-medium text-text-secondary">
-              <a href="#" className="hover:text-text-main">Privacy</a>
-              <a href="#" className="hover:text-text-main">Terms</a>
-              <a href="#" className="hover:text-text-main">Twitter</a>
-              <a href="#" className="hover:text-text-main">GitHub</a>
-           </div>
+      <footer className="bg-surface border-t border-border pt-12 pb-8 px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto">
+          {/* Top section */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-10">
+            {/* Brand */}
+            <div className="flex flex-col gap-4">
+              <div className="flex items-center gap-2">
+                <img src="/logo.jpeg" alt="Mantessa" className="w-8 h-8 rounded-lg object-contain" />
+                <span className="font-bold text-text-main text-lg">Mantessa</span>
+              </div>
+              <p className="text-sm text-text-muted leading-relaxed">
+                Your all-in-one study operating system. Track progress, stay focused, and ace your goals.
+              </p>
+            </div>
 
-           <p className="text-sm text-text-muted">© 2026 Mantessa Inc.</p>
+            {/* Product */}
+            <div className="flex flex-col gap-3">
+              <h4 className="text-sm font-semibold text-text-main uppercase tracking-wider">Product</h4>
+              <Link to="/login" className="text-sm text-text-secondary hover:text-text-main transition-colors">Login</Link>
+              <Link to="/register" className="text-sm text-text-secondary hover:text-text-main transition-colors">Get Started Free</Link>
+              <a href="#features" className="text-sm text-text-secondary hover:text-text-main transition-colors">Features</a>
+              <a href="#" className="text-sm text-text-secondary hover:text-text-main transition-colors">Changelog</a>
+            </div>
+
+            {/* Ecosystem */}
+            <div className="flex flex-col gap-3">
+              <h4 className="text-sm font-semibold text-text-main uppercase tracking-wider">Ecosystem</h4>
+              <a href="https://chronallab-site.vercel.app/" target="_blank" rel="noopener noreferrer"
+                className="text-sm text-text-secondary hover:text-text-main transition-colors flex items-center gap-1.5">
+                ChronalLabs
+                <svg className="w-3 h-3 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+              </a>
+              <a href="https://byteedu.co.in/" target="_blank" rel="noopener noreferrer"
+                className="text-sm text-text-secondary hover:text-text-main transition-colors flex items-center gap-1.5">
+                ByteEdu Learning Platform
+                <svg className="w-3 h-3 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+              </a>
+            </div>
+
+            {/* Legal */}
+            <div className="flex flex-col gap-3">
+              <h4 className="text-sm font-semibold text-text-main uppercase tracking-wider">Legal</h4>
+              <a href="#" className="text-sm text-text-secondary hover:text-text-main transition-colors">Privacy Policy</a>
+              <a href="#" className="text-sm text-text-secondary hover:text-text-main transition-colors">Terms of Service</a>
+              <a href="#" className="text-sm text-text-secondary hover:text-text-main transition-colors">Cookie Policy</a>
+            </div>
+          </div>
+
+          {/* Divider + bottom bar */}
+          <div className="border-t border-border pt-6 flex flex-col sm:flex-row justify-between items-center gap-3">
+            <div className="flex items-center gap-2">
+              <img src="/be.jpeg" alt="ByteEdu" className="w-8 h-8 rounded-md object-cover border border-border" />
+              <p className="text-xs text-text-muted">© 2026 ByteEdu Learning Platform. All rights reserved.</p>
+            </div>
+            <p className="text-xs text-text-muted">Built with ❤️ for students everywhere</p>
+          </div>
         </div>
       </footer>
     </div>

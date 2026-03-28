@@ -130,7 +130,7 @@ const Login = () => {
                       className="w-full h-full rounded-full object-cover shrink-0"
                     />
                   </div>
-                  <div className="absolute -bottom-0.5 -right-0 bg-primary text-white p-0.5 rounded-full shadow-lg border-2 border-surface">
+                  <div className="absolute -bottom-0.5 right-0 bg-primary text-white p-0.5 rounded-full shadow-lg border-2 border-surface">
                     <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
                   </div>
                 </div>

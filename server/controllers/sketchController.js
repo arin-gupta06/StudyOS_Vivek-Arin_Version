@@ -8,7 +8,7 @@ exports.getSketches = async (req, res) => {
       .select("title thumbnail width height createdAt updatedAt");
     res.json(sketches);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -22,7 +22,7 @@ exports.getSketch = async (req, res) => {
     if (!sketch) return res.status(404).json({ message: "Sketch not found" });
     res.json(sketch);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -40,7 +40,7 @@ exports.createSketch = async (req, res) => {
     });
     res.status(201).json(sketch);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -64,7 +64,7 @@ exports.updateSketch = async (req, res) => {
     await sketch.save();
     res.json(sketch);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -78,6 +78,6 @@ exports.deleteSketch = async (req, res) => {
     if (!sketch) return res.status(404).json({ message: "Sketch not found" });
     res.json({ message: "Sketch deleted" });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: "Server error" });
   }
 };

@@ -33,15 +33,13 @@ exports.registerUser = async (req, res) => {
         .json({ message: "Password must be at least 6 characters long" });
     }
 
-    const emailExists = await User.findOne({ email });
-    if (emailExists) {
-      return res.status(400).json({ message: "Email already in use" });
-    }
-
-    const usernameExists = await User.findOne({ username });
-    if (usernameExists) {
-      return res.status(400).json({ message: "Username already taken" });
-    }
+    // Run both duplicate checks in parallel
+    const [emailExists, usernameExists] = await Promise.all([
+      User.findOne({ email }).lean(),
+      User.findOne({ username }).lean(),
+    ]);
+    if (emailExists) return res.status(400).json({ message: "Email already in use" });
+    if (usernameExists) return res.status(400).json({ message: "Username already taken" });
 
     const user = await User.create({
       username,
@@ -52,16 +50,16 @@ exports.registerUser = async (req, res) => {
     });
 
     if (user) {
-      // Initialize empty stats for fresh account
-      await UserStat.create({
-        user: user._id,
-        focusScore: 0,
-        currentStreak: 0,
-        studyHours: 0,
-        tasksDone: 0,
-      });
-
-      await Subject.create([
+      // Run all seed data inserts in parallel — do NOT block the response on these
+      Promise.all([
+        UserStat.create({
+          user: user._id,
+          focusScore: 0,
+          currentStreak: 0,
+          studyHours: 0,
+          tasksDone: 0,
+        }),
+        Subject.create([
         {
           user: user._id,
           name: "Advanced Mathematics",
@@ -199,9 +197,8 @@ exports.registerUser = async (req, res) => {
             { name: "Advanced Graphs", progress: 40, tasks: 2, completed: 1 },
           ],
         },
-      ]);
-
-      await Task.create([
+      ]),
+      Task.create([
         {
           user: user._id,
           title: "Research Paper Outline",
@@ -216,9 +213,8 @@ exports.registerUser = async (req, res) => {
           progress: 65,
         },
         { user: user._id, title: "Literature Review", status: "completed" },
-      ]);
-
-      await Event.create([
+      ]),
+      Event.create([
         {
           user: user._id,
           title: "Physics: Wave Motion",
@@ -243,9 +239,8 @@ exports.registerUser = async (req, res) => {
           type: "Assignment",
           date: new Date(Date.now() + 7 * 86400000),
         },
-      ]);
-
-      await Note.create([
+      ]),
+      Note.create([
         {
           user: user._id,
           category: "Study",
@@ -292,7 +287,8 @@ exports.registerUser = async (req, res) => {
           pinned: true,
           color: "emerald",
         },
-      ]);
+      ]),
+      ]).catch((err) => console.error("Seed data error for user", user._id, err));
 
       const token = generateToken(user._id);
 
@@ -304,19 +300,19 @@ exports.registerUser = async (req, res) => {
       });
 
       res.status(201).json({
+        token,
         _id: user._id,
         username: user.username,
         email: user.email,
         socialLinks: user.socialLinks,
         avatar: user.avatar,
-        token,
       });
     } else {
       res.status(400).json({ message: "Invalid user data" });
     }
   } catch (error) {
     console.error("Registration error:", error);
-    res.status(500).json({ message: "Server Error", error: error.message });
+    res.status(500).json({ message: "Server Error" });
   }
 };
 
@@ -327,7 +323,7 @@ exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select('+password');
 
     if (user && (await user.matchPassword(password))) {
       const token = generateToken(user._id);
@@ -340,18 +336,19 @@ exports.loginUser = async (req, res) => {
       });
 
       res.json({
+        token,
         _id: user._id,
         username: user.username,
         email: user.email,
         socialLinks: user.socialLinks,
         avatar: user.avatar,
-        token,
       });
     } else {
       res.status(401).json({ message: "Invalid email or password" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Server Error", error: error.message });
+    console.error("Login error:", error);
+    res.status(500).json({ message: "Server Error", detail: error.message });
   }
 };
 
@@ -364,7 +361,7 @@ exports.getMe = async (req, res) => {
     const user = await User.findById(req.user._id).select("-password");
     res.json(user);
   } catch (error) {
-    res.status(500).json({ message: "Server Error", error: error.message });
+    res.status(500).json({ message: "Server Error" });
   }
 };
 
@@ -404,7 +401,7 @@ exports.updateSocialLinks = async (req, res) => {
 
     res.json(user);
   } catch (error) {
-    res.status(500).json({ message: 'Server Error', error: error.message });
+    res.status(500).json({ message: 'Server Error' });
   }
 };
 
@@ -443,6 +440,6 @@ exports.updateProfile = async (req, res) => {
 
     res.json(user);
   } catch (error) {
-    res.status(500).json({ message: 'Server Error', error: error.message });
+    res.status(500).json({ message: 'Server Error' });
   }
 };

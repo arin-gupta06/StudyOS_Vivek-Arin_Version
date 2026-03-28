@@ -2,7 +2,7 @@ import { create } from "zustand";
 import axios from "axios";
 
 const API = `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/focus`;
-const cfg = { withCredentials: true };
+const cfg = {};
 
 export const useFocusStore = create((set, get) => ({
   // state

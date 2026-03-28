@@ -18,13 +18,14 @@ exports.getActiveSession = async (req, res) => {
         Math.floor((Date.now() - session.startedAt.getTime()) / 1000) -
         session.pausedDuration;
     } else if (session.status === "paused") {
-      const pausedSoFar = session.lastPausedAt
+      // When paused, elapsed = total time since start - all paused duration (including current pause)
+      const currentPauseDuration = session.lastPausedAt
         ? Math.floor((Date.now() - session.lastPausedAt.getTime()) / 1000)
         : 0;
       elapsed =
         Math.floor((Date.now() - session.startedAt.getTime()) / 1000) -
         session.pausedDuration -
-        pausedSoFar;
+        currentPauseDuration;
     }
 
     res.json({
@@ -36,7 +37,7 @@ exports.getActiveSession = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(500).json({ message: "Server Error", error: err.message });
+    res.status(500).json({ message: "Server Error" });
   }
 };
 
@@ -69,7 +70,7 @@ exports.startSession = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(500).json({ message: "Server Error", error: err.message });
+    res.status(500).json({ message: "Server Error" });
   }
 };
 
@@ -99,7 +100,7 @@ exports.pauseSession = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(500).json({ message: "Server Error", error: err.message });
+    res.status(500).json({ message: "Server Error" });
   }
 };
 
@@ -136,7 +137,7 @@ exports.resumeSession = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(500).json({ message: "Server Error", error: err.message });
+    res.status(500).json({ message: "Server Error" });
   }
 };
 
@@ -181,7 +182,7 @@ exports.stopSession = async (req, res) => {
       duration: session.duration,
     });
   } catch (err) {
-    res.status(500).json({ message: "Server Error", error: err.message });
+    res.status(500).json({ message: "Server Error" });
   }
 };
 
@@ -204,7 +205,7 @@ exports.getTodayFocus = async (req, res) => {
 
     res.json({ todaySeconds: totalSeconds, sessionCount: sessions.length });
   } catch (err) {
-    res.status(500).json({ message: "Server Error", error: err.message });
+    res.status(500).json({ message: "Server Error" });
   }
 };
 
@@ -246,6 +247,6 @@ exports.getWeeklyActivity = async (req, res) => {
 
     res.json(result);
   } catch (err) {
-    res.status(500).json({ message: "Server Error", error: err.message });
+    res.status(500).json({ message: "Server Error" });
   }
 };

@@ -14,13 +14,18 @@ function ensureDir() {
   }
 }
 
+// Sanitize an ID so it cannot escape DATA_DIR (no path traversal)
+function sanitizeId(id) {
+  return String(id || "").replace(/[^a-zA-Z0-9_\-]/g, "").slice(0, 100);
+}
+
 // @desc   Save notebook to local filesystem
 // @route  POST /api/local-save
 router.post("/", protect, (req, res) => {
   try {
     ensureDir();
     const { notebookId, title, blocks, tags } = req.body;
-    const id = notebookId || `nb_${Date.now()}`;
+    const id = sanitizeId(notebookId) || `nb_${Date.now()}`;
 
     // Sanitize title for filename
     const safeName = (title || "Untitled")
@@ -67,8 +72,6 @@ router.post("/", protect, (req, res) => {
 
     res.json({
       message: "Saved locally",
-      filePath: filePath,
-      mdPath: mdPath,
       savedAt: fileData.savedAt,
     });
   } catch (err) {
@@ -82,7 +85,7 @@ router.post("/", protect, (req, res) => {
 router.get("/:id", protect, (req, res) => {
   try {
     ensureDir();
-    const filePath = path.join(DATA_DIR, `${req.params.id}.json`);
+    const filePath = path.join(DATA_DIR, `${sanitizeId(req.params.id)}.json`);
     if (!fs.existsSync(filePath)) {
       return res.status(404).json({ message: "Local notebook not found" });
     }

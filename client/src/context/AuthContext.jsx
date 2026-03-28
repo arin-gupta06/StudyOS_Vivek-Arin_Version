@@ -12,10 +12,12 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const checkUser = async () => {
-            // Check for the "Logged In" hint to avoid 401 errors in console for guests
+            // Need both the hint and an actual token
             const authHint = localStorage.getItem('mantessa_logged_in');
+            const token = localStorage.getItem('mantessa_token');
 
-            if (!authHint) {
+            if (!authHint || !token) {
+                localStorage.removeItem('mantessa_logged_in');
                 setLoading(false);
                 return;
             }
@@ -26,7 +28,6 @@ export const AuthProvider = ({ children }) => {
             } catch (error) {
                 if (error.response?.status === 401) {
                     localStorage.removeItem('mantessa_logged_in');
-                    localStorage.removeItem('mantessa_token');
                 } else {
                     console.error('Initial auth check failed:', error);
                 }
@@ -55,7 +56,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     const logout = async () => {
-        await axios.post('/api/auth/logout');
+        await axios.post('/api/auth/logout').catch(() => {});
         localStorage.removeItem('mantessa_logged_in');
         localStorage.removeItem('mantessa_token');
         useDashboardStore.getState().reset();

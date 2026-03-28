@@ -13,6 +13,15 @@ import { useAuth } from "../context/AuthContext";
 import Sidebar from "../components/Sidebar";
 import RightPanel from "../components/RightPanel";
 import { useLayoutStore } from "../store/layoutStore";
+import avatar1 from '../assets/avatar/avatar_r1_c1_processed_by_imagy.jpg';
+import avatar2 from '../assets/avatar/avatar_r1_c2_processed_by_imagy.jpg';
+import avatar3 from '../assets/avatar/avatar_r1_c3_processed_by_imagy.jpg';
+import avatar4 from '../assets/avatar/avatar_r2_c1_processed_by_imagy.jpg';
+import avatar5 from '../assets/avatar/avatar_r2_c2_processed_by_imagy.jpg';
+import avatar6 from '../assets/avatar/avatar_r2_c3_processed_by_imagy.jpg';
+import avatar7 from '../assets/avatar/avatar_r3_c1_processed_by_imagy.jpg';
+import avatar8 from '../assets/avatar/avatar_r3_c2_processed_by_imagy.jpg';
+import avatar9 from '../assets/avatar/avatar_r3_c3_processed_by_imagy.jpg';
 
 const socialFields = [
   {
@@ -53,16 +62,15 @@ const socialFields = [
 ];
 
 const avatars = [
-  "https://api.dicebear.com/7.x/adventurer/svg?seed=Felix",
-  "https://api.dicebear.com/7.x/adventurer/svg?seed=Aneka",
-  "https://api.dicebear.com/7.x/adventurer/svg?seed=Mia",
-  "https://api.dicebear.com/7.x/adventurer/svg?seed=Milo",
-  "https://api.dicebear.com/7.x/adventurer/svg?seed=Jude",
-  "https://api.dicebear.com/7.x/adventurer/svg?seed=Aiden",
-  "https://api.dicebear.com/7.x/adventurer/svg?seed=Leo",
-  "https://api.dicebear.com/7.x/adventurer/svg?seed=Bella",
-  "https://api.dicebear.com/7.x/adventurer/svg?seed=Chloe",
-  "https://api.dicebear.com/7.x/adventurer/svg?seed=Zoe",
+  avatar1,
+  avatar2,
+  avatar3,
+  avatar4,
+  avatar5,
+  avatar6,
+  avatar7,
+  avatar8,
+  avatar9,
 ];
 
 const EditProfile = () => {

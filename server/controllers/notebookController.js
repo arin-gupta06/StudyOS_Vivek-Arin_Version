@@ -9,7 +9,7 @@ exports.getNotebooks = async (req, res) => {
     });
     res.json(notebooks);
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -25,7 +25,7 @@ exports.getNotebook = async (req, res) => {
       return res.status(404).json({ message: "Notebook not found" });
     res.json(notebook);
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -41,7 +41,7 @@ exports.getSharedNotebook = async (req, res) => {
       return res.status(404).json({ message: "Shared notebook not found" });
     res.json(notebook);
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -72,7 +72,7 @@ exports.updateSharedNotebook = async (req, res) => {
       return res.status(404).json({ message: "Shared notebook not found" });
     res.json(notebook);
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -90,7 +90,7 @@ exports.toggleShare = async (req, res) => {
     await notebook.save();
     res.json(notebook);
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -132,7 +132,7 @@ exports.getByChapter = async (req, res) => {
 
     res.json(notebook);
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -146,7 +146,7 @@ exports.createNotebook = async (req, res) => {
     });
     res.status(201).json(notebook);
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -182,7 +182,7 @@ exports.updateNotebook = async (req, res) => {
       return res.status(404).json({ message: "Notebook not found" });
     res.json(notebook);
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -200,7 +200,7 @@ exports.bulkDeleteNotebooks = async (req, res) => {
     });
     res.json({ message: `${result.deletedCount} notebook(s) deleted`, deletedCount: result.deletedCount });
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -211,7 +211,7 @@ exports.deleteAllNotebooks = async (req, res) => {
     const result = await Notebook.deleteMany({ user: req.user._id });
     res.json({ message: `${result.deletedCount} notebook(s) deleted`, deletedCount: result.deletedCount });
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -227,6 +227,6 @@ exports.deleteNotebook = async (req, res) => {
       return res.status(404).json({ message: "Notebook not found" });
     res.json({ message: "Notebook deleted" });
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    res.status(500).json({ message: "Server error" });
   }
 };

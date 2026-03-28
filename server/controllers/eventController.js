@@ -7,7 +7,7 @@ exports.getEvents = async (req, res) => {
     const events = await Event.find({ user: req.user._id }).sort({ date: 1 });
     res.json(events);
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -29,7 +29,7 @@ exports.createEvent = async (req, res) => {
     });
     res.status(201).json(event);
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -45,7 +45,7 @@ exports.updateEvent = async (req, res) => {
     if (!event) return res.status(404).json({ message: "Event not found" });
     res.json(event);
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -60,6 +60,6 @@ exports.deleteEvent = async (req, res) => {
     if (!event) return res.status(404).json({ message: "Event not found" });
     res.json({ message: "Event deleted" });
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    res.status(500).json({ message: "Server error" });
   }
 };
