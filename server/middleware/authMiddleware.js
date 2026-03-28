@@ -16,7 +16,8 @@ const protect = async (req, res, next) => {
     if (token) {
         try {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            req.user = await User.findById(decoded.id).select('-password');
+            // .lean() prevents creating a heavyweight mongoose object for every single authenticated request
+            req.user = await User.findById(decoded.id).select('-password').lean();
             next();
         } catch (error) {
             console.error(error);

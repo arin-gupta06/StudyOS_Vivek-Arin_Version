@@ -7,7 +7,8 @@ const cfg = {};
 export const useFocusStore = create((set, get) => ({
   // state
   isActive: false,
-  isPaused: false,
+  isPaused:
+ false,
   sessionId: null,
   elapsed: 0, // seconds
   _interval: null,
@@ -37,7 +38,8 @@ export const useFocusStore = create((set, get) => ({
       if (data.session) {
         set({
           isActive: true,
-          isPaused: data.session.status === "paused",
+          isPaused:
+ data.session.status === "paused",
           sessionId: data.session._id,
           elapsed: data.session.elapsed || 0,
         });
@@ -56,7 +58,8 @@ export const useFocusStore = create((set, get) => ({
       const { data } = await axios.post(`${API}/start`, {}, cfg);
       set({
         isActive: true,
-        isPaused: false,
+        isPaused:
+ false,
         sessionId: data.session._id,
         elapsed: 0,
       });
@@ -98,7 +101,8 @@ export const useFocusStore = create((set, get) => ({
       get()._stopTicking();
       set({
         isActive: false,
-        isPaused: false,
+        isPaused:
+ false,
         sessionId: null,
         elapsed: 0,
       });
@@ -124,3 +128,11 @@ export const useFocusStore = create((set, get) => ({
     return `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
   },
 }));
+
+
+// Broadcast state changes to the Chrome Extension
+if (typeof window !== 'undefined') {
+  useFocusStore.subscribe((state) => {
+    window.postMessage({ type: "STUDYOS_FOCUS_UPDATE", active: state.isActive && !state.isPaused }, "*");
+  });
+}

@@ -3,9 +3,16 @@ const Sketch = require("../models/Sketch");
 /* GET /api/sketches  — all sketches for user (gallery) */
 exports.getSketches = async (req, res) => {
   try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 20; // Default limit 20
+    const skip = (page - 1) * limit;
+
     const sketches = await Sketch.find({ user: req.user._id })
       .sort({ updatedAt: -1 })
-      .select("title thumbnail width height createdAt updatedAt");
+      .select("title thumbnail width height createdAt updatedAt")
+      .skip(skip)
+      .limit(limit)
+      .lean();
     res.json(sketches);
   } catch (err) {
     res.status(500).json({ message: "Server error" });
@@ -18,7 +25,7 @@ exports.getSketch = async (req, res) => {
     const sketch = await Sketch.findOne({
       _id: req.params.id,
       user: req.user._id,
-    });
+    }).lean();
     if (!sketch) return res.status(404).json({ message: "Sketch not found" });
     res.json(sketch);
   } catch (err) {

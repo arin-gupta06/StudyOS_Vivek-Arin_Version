@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<body style="width: 200px; padding: 10px; font-family: sans-serif; text-align: center;">
+  <h3>StudyOS Blocker</h3>
+  <p id="status">Checking status...</p>
+  <script>
+    chrome.storage.local.get(["isFocusActive"], (res) => {
+      document.getElementById("status").innerText = res.isFocusActive ? "?? Focus Mode Active\nBlocking Distractions!" : "?? Idle\nNot Blocking";
+      document.getElementById("status").style.color = res.isFocusActive ? "crimson" : "green";
+    });
+  </script>
+</body>
+</html>

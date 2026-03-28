@@ -4,9 +4,15 @@ const Notebook = require("../models/Notebook");
 // @route  GET /api/notebooks
 exports.getNotebooks = async (req, res) => {
   try {
-    const notebooks = await Notebook.find({ user: req.user._id }).sort({
-      updatedAt: -1,
-    });
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 20; // Default limit 20
+    const skip = (page - 1) * limit;
+
+    const notebooks = await Notebook.find({ user: req.user._id })
+      .sort({ updatedAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .lean();
     res.json(notebooks);
   } catch (err) {
     res.status(500).json({ message: "Server error" });
@@ -20,7 +26,7 @@ exports.getNotebook = async (req, res) => {
     const notebook = await Notebook.findOne({
       _id: req.params.id,
       user: req.user._id,
-    });
+    }).lean();
     if (!notebook)
       return res.status(404).json({ message: "Notebook not found" });
     res.json(notebook);

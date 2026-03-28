@@ -4,9 +4,17 @@ const Task = require("../models/Task");
 // @route  GET /api/tasks
 exports.getTasks = async (req, res) => {
   try {
-    const tasks = await Task.find({ user: req.user._id }).sort({
-      createdAt: -1,
-    });
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 100; // Allows requesting chunks, defaults to 100
+    const skip = (page - 1) * limit;
+
+    // Adding .lean() drastically improves query performance by returning base JSON instead of Mongoose Docs
+    const tasks = await Task.find({ user: req.user._id })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .lean();
+
     const grouped = {
       todo: tasks.filter((t) => t.status === "todo"),
       inProgress: tasks.filter((t) => t.status === "inProgress"),

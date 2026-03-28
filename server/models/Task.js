@@ -19,4 +19,8 @@ const TaskSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
+// Compound indexes for faster querying by user & status, or user & dueDate
+TaskSchema.index({ user: 1, status: 1 });
+TaskSchema.index({ user: 1, dueDate: 1 });
+
 module.exports = mongoose.model("Task", TaskSchema);

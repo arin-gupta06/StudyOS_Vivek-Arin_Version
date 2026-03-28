@@ -16,4 +16,7 @@ const EventSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
+// Index for quicker chronological retrieval of events per user
+EventSchema.index({ user: 1, date: 1 });
+
 module.exports = mongoose.model("Event", EventSchema);

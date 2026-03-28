@@ -65,10 +65,19 @@ Built with the **MERN Stack** (MongoDB, Express, React, Node.js) featuring a neu
 
 | Layer | Technology |
 |-------|-----------|
-| Runtime | Node.js + Express 5 |
-| Database | MongoDB via Mongoose 9 |
+| Runtime | Node.js + Express 5 + PM2 (Clustering) |
+| Database | MongoDB via Mongoose 9 (Connection Pooling) |
+| Caching & Rate Limiting | Redis via Upstash |
 | Auth | JWT (httpOnly cookies) + bcryptjs |
-| Real-time | Socket.IO 4 |
+| Real-time | Socket.IO 4 + `@socket.io/redis-adapter` |
+
+### System Performance & Scaling
+- **Horizontal Scaling:** Multi-core Node.js process clustering using PM2
+- **Data Caching Layer:** Express route-level Redis caching (`/notes`, `/tasks`, `/notebooks`) with intelligent auto-invalidation
+- **Real-Time Scaling:** Socket.IO multi-node Redis adapter enabling WebSocket sync across separated CPU cores 
+- **Database Optimization:** Mongoose maxPoolSize Thread Pooling and Paginated Endpoint querying 
+- **Frontend Optimization:** Global React-Query client reducing Axios waterfalls using stale-time closures
+- **Security:** Strict IP Rate Limiting through Redis Store mitigating DoS and Brute Force Attacks
 
 ### Data Models
 

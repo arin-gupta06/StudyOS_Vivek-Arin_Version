@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import Sidebar from "../components/Sidebar";
 import RightPanel from "../components/RightPanel";
@@ -508,7 +509,7 @@ const Subjects = () => {
 
       {/* Add Subject Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60] flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-60 flex items-center justify-center p-4">
           <div className="bg-surface rounded-3xl p-6 w-full max-w-md shadow-xl border border-border/50">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-bold text-text-main">

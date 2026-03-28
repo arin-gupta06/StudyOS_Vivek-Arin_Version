@@ -19,10 +19,13 @@ exports.getDashboardData = async (req, res) => {
     };
 
     // --- Compute real study hours from completed focus sessions ---
+    // Added .lean() and selected only the 'duration' field to drastically reduce memory usage
     const allCompleted = await FocusSession.find({
       user: userId,
       status: "completed",
-    });
+    })
+      .select("duration")
+      .lean();
     const totalFocusSeconds = allCompleted.reduce(
       (sum, s) => sum + (s.duration || 0),
       0,
@@ -32,7 +35,13 @@ exports.getDashboardData = async (req, res) => {
     // --- Today's focus time ---
     const startOfDay = new Date();
     startOfDay.setHours(0, 0, 0, 0);
-    const todaySessions = allCompleted.filter((s) => s.startedAt >= startOfDay);
+    const todaySessions = await FocusSession.find({
+      user: userId,
+      status: "completed",
+      startedAt: { $gte: startOfDay },
+    })
+      .select("duration")
+      .lean();
     const todaySeconds = todaySessions.reduce(
       (sum, s) => sum + (s.duration || 0),
       0,
@@ -40,7 +49,7 @@ exports.getDashboardData = async (req, res) => {
     const todayHours = parseFloat((todaySeconds / 3600).toFixed(1));
 
     // --- Tasks ---
-    const tasks = await Task.find({ user: userId });
+    const tasks = await Task.find({ user: userId }).select("status").lean();
     const completedTasks = tasks.filter((t) => t.status === "completed").length;
     const pendingTasks = tasks.filter(
       (t) => t.status === "todo" || t.status === "inProgress",
@@ -73,7 +82,8 @@ exports.getDashboardData = async (req, res) => {
     // --- Subjects (top 4 for focus widget) ---
     const subjects = await Subject.find({ user: userId })
       .sort({ progress: -1 })
-      .limit(4);
+      .limit(4)
+      .lean();
 
     // --- Upcoming events ---
     const upcomingEvents = await Event.find({
@@ -81,13 +91,15 @@ exports.getDashboardData = async (req, res) => {
       date: { $gte: new Date() },
     })
       .sort({ date: 1 })
-      .limit(3);
+      .limit(3)
+      .lean();
 
     // --- Recent sketches ---
     const recentSketches = await Sketch.find({ user: userId })
       .sort({ updatedAt: -1 })
       .limit(3)
-      .select("title thumbnail updatedAt");
+      .select("title thumbnail updatedAt")
+      .lean();
 
     // --- Weekly activity (last 7 days) ---
     const weeklyActivity = [];

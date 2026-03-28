@@ -26,8 +26,10 @@ import {
   Clock,
   FileText,
   Calendar,
+  Video,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { LiveStudyBubble } from "../components/StudyRooms/LiveStudyBubble";
 
 const API = `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api`;
 const axiosCfg = { withCredentials: true };
@@ -89,7 +91,7 @@ const CodeBlock = ({ block, onChange, onDelete }) => (
     <textarea
       value={block.code || ""}
       onChange={(e) => onChange({ ...block, code: e.target.value })}
-      className="w-full bg-transparent text-emerald-300 font-mono text-sm p-4 outline-none resize-none min-h-[160px] leading-relaxed placeholder:text-white/20"
+      className="w-full bg-transparent text-emerald-300 font-mono text-sm p-4 outline-none resize-none min-h-40 leading-relaxed placeholder:text-white/20"
       spellCheck={false}
       placeholder="// Paste or write your code here..."
     />
@@ -102,6 +104,7 @@ const SharedNotebook = () => {
   const { socketRef, connected: socketConnected } = useSocket();
   const isRemoteUpdate = useRef(false);
   const [liveUsers, setLiveUsers] = useState(0);
+  const [showVideo, setShowVideo] = useState(false);
 
   const [notebook, setNotebook] = useState(null);
   const [title, setTitle] = useState("Shared Notebook");
@@ -654,12 +657,23 @@ const SharedNotebook = () => {
           >
             <Copy size={16} />
           </button>
+          <button
+            onClick={() => setShowVideo(!showVideo)}
+            className={`p-2 transition-colors inline-flex rounded-full ml-2 ${showVideo ? "bg-red-500/20 text-red-500" : "text-primary hover:bg-primary/20 bg-primary/10"}`}
+            title="Live Video Room"
+          >
+            <Video size={16} />
+          </button>
         </div>
       </header>
 
+      {showVideo && (
+        <LiveStudyBubble roomId={notebookId} onClose={() => setShowVideo(false)} />
+      )}
+
       {/* ─── Editor ─── */}
       <div className="flex flex-1 overflow-hidden">
-        <main className="flex-1 overflow-y-auto px-6 py-10 md:px-16 lg:px-24">
+        <main className="flex-1 overflow-y-auto px-6 py-10 md:px-16 lg:px-24"> 
           <div className="max-w-3xl mx-auto">
             {/* title */}
             <input
@@ -869,7 +883,7 @@ const SharedNotebook = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-100 flex items-center justify-center p-4"
             onClick={() => setShowLinkModal(false)}
           >
             <motion.div
@@ -900,7 +914,7 @@ const SharedNotebook = () => {
                 </button>
                 <button
                   onClick={insertLink}
-                  className="btn-primary !px-6 !py-2 text-sm"
+                  className="btn-primary px-6! py-2! text-sm"
                 >
                   Insert
                 </button>
@@ -917,7 +931,7 @@ const SharedNotebook = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-100 flex items-center justify-center p-4"
             onClick={() => setShowImageModal(false)}
           >
             <motion.div
@@ -979,7 +993,7 @@ const SharedNotebook = () => {
                 </button>
                 <button
                   onClick={insertImage}
-                  className="btn-primary !px-6 !py-2 text-sm"
+                  className="btn-primary px-6! py-2! text-sm"
                   disabled={!imageUrl.trim()}
                 >
                   Insert URL
@@ -997,7 +1011,7 @@ const SharedNotebook = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-primary text-white px-6 py-3 rounded-xl text-sm font-medium shadow-glow z-[200]"
+            className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-primary text-white px-6 py-3 rounded-xl text-sm font-medium shadow-glow z-200"
           >
             {toast}
           </motion.div>
@@ -1008,3 +1022,4 @@ const SharedNotebook = () => {
 };
 
 export default SharedNotebook;
+ 

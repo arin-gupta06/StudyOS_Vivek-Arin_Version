@@ -26,4 +26,8 @@ const NotebookSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now },
 });
 
+// Index for optimizing queries on notebooks tied to subjects/users
+NotebookSchema.index({ user: 1, subject: 1 });
+NotebookSchema.index({ user: 1, updatedAt: -1 });
+
 module.exports = mongoose.model("Notebook", NotebookSchema);

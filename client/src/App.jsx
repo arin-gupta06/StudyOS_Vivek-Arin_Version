@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect, Suspense } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -7,21 +7,28 @@ import {
 } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { useThemeStore } from "./store/themeStore";
-import Sidebar from "./components/Sidebar";
-import RightPanel from "./components/RightPanel";
-import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
-import Subjects from "./pages/Subjects";
-import CalendarPage from "./pages/Calendar";
-import Calculator from "./pages/Calculator";
-import StickyNotes from "./pages/StickyNotes";
-import Notepad from "./pages/Notepad";
-import TodoList from "./pages/TodoList";
-import DrawingPad from "./pages/DrawingPad";
-import SharedNotebook from "./pages/SharedNotebook";
-import EditProfile from "./pages/EditProfile";
 import ProtectedRoute from "./components/ProtectedRoute";
-import LandingPage from "./pages/LandingPage";
+
+// Lazy load pages to decrease initial bundle size
+const LandingPage = React.lazy(() => import("./pages/LandingPage"));
+const Login = React.lazy(() => import("./pages/Login"));
+const Dashboard = React.lazy(() => import("./pages/Dashboard"));
+const Subjects = React.lazy(() => import("./pages/Subjects"));
+const CalendarPage = React.lazy(() => import("./pages/Calendar"));
+const Calculator = React.lazy(() => import("./pages/Calculator"));
+const StickyNotes = React.lazy(() => import("./pages/StickyNotes"));
+const Notepad = React.lazy(() => import("./pages/Notepad"));
+const TodoList = React.lazy(() => import("./pages/TodoList"));
+const DrawingPad = React.lazy(() => import("./pages/DrawingPad"));
+const SharedNotebook = React.lazy(() => import("./pages/SharedNotebook"));
+const EditProfile = React.lazy(() => import("./pages/EditProfile"));
+
+// Fallback loader component
+const PageLoader = () => (
+  <div className="flex h-screen w-full items-center justify-center bg-gray-50 dark:bg-[#1C1C1E]">
+    <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"></div>
+  </div>
+);
 
 function App() {
   const { isDarkMode } = useThemeStore();
@@ -37,25 +44,27 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/shared/:id" element={<SharedNotebook />} />
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/shared/:id" element={<SharedNotebook />} />
 
-          <Route element={<ProtectedRoute />}>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/subjects" element={<Subjects />} />
-            <Route path="/calendar" element={<CalendarPage />} />
-            <Route path="/calculator" element={<Calculator />} />
-            <Route path="/sticky-notes" element={<StickyNotes />} />
-            <Route path="/notes" element={<Notepad />} />
-            <Route path="/todos" element={<TodoList />} />
-            <Route path="/drawing-pad" element={<DrawingPad />} />
-            <Route path="/edit-profile" element={<EditProfile />} />
-          </Route>
+            <Route element={<ProtectedRoute />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/subjects" element={<Subjects />} />
+              <Route path="/calendar" element={<CalendarPage />} />
+              <Route path="/calculator" element={<Calculator />} />
+              <Route path="/sticky-notes" element={<StickyNotes />} />
+              <Route path="/notes" element={<Notepad />} />
+              <Route path="/todos" element={<TodoList />} />
+              <Route path="/drawing-pad" element={<DrawingPad />} />
+              <Route path="/edit-profile" element={<EditProfile />} />
+            </Route>
 
-          <Route path="*" element={<Navigate to="/login" replace />} />
-        </Routes>
+            <Route path="*" element={<Navigate to="/login" replace />} />
+          </Routes>
+        </Suspense>
       </Router>
     </AuthProvider>
   );

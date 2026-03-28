@@ -199,7 +199,7 @@ const RightPanel = ({ onClose }) => {
     <>
       <button
         onClick={toggleRightPanel}
-        className={`fixed top-1/2 -translate-y-1/2 z-[60] bg-surface w-8 h-16 flex items-center justify-center rounded-l-2xl shadow-[0_4px_14px_rgba(0,0,0,0.05)] border border-border border-r-0 transition-all duration-300 ${isOpen ? "right-80" : "right-0"} hidden xl:flex`}
+        className={`fixed top-1/2 -translate-y-1/2 z-60 bg-surface w-8 h-16 flex items-center justify-center rounded-l-2xl shadow-[0_4px_14px_rgba(0,0,0,0.05)] border border-border border-r-0 transition-all duration-300 ${isOpen ? "right-80" : "right-0"} hidden xl:flex`}
         title="Toggle Panel"
       >
         <div
@@ -316,56 +316,98 @@ const RightPanel = ({ onClose }) => {
           </div>
         </div>
 
-        {/* ── 2. Focus Timer Card ── */}
-        <div
-          className="card relative bg-primary/10 cursor-pointer transition-all duration-300"
-          onClick={() => !focusActive && toggleFocus()}
-        >
-          {/* State 1: Collapsed — just "Focus Session" label */}
-          {!focusActive && (
-            <div className="flex items-center gap-2 relative z-10">
-              <div className="w-2 h-2 rounded-full bg-primary text-primary shadow-[0_0_8px_currentColor]" />
-              <span className="text-[10px] font-bold tracking-widest uppercase text-text-muted">
-                Focus Session
-              </span>
-            </div>
-          )}
+        {/* --- 2. Focus Timer Card (Pomodoro UI) --- */}
+          <div
+            className="card relative bg-primary/10 cursor-pointer overflow-hidden transition-all duration-300"
+            onClick={() => !focusActive && toggleFocus()}
+          >
+            {/* Background animated gradient when active */}
+            {focusActive && !focusPaused && (
+              <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-primary/20 to-transparent opacity-50 animate-pulse pointer-events-none" />
+            )}
 
-          {/* State 2: Expanded — timer + controls (visible when session is active) */}
-          {focusActive && (
-            <>
-              <div className="flex items-center gap-2 mb-4 relative z-10">
-                <div
-                  className={`w-2 h-2 rounded-full shadow-[0_0_8px_currentColor] ${!focusPaused ? "bg-primary text-primary animate-pulse" : "bg-amber-500 text-amber-500"}`}
-                />
+            {!focusActive && (
+              <div className="flex items-center gap-2 relative z-10 w-full">
+                <div className="w-2 h-2 rounded-full bg-primary text-primary shadow-[0_0_8px_currentColor]" />
                 <span className="text-[10px] font-bold tracking-widest uppercase text-text-muted">
-                  {focusPaused ? "Session Paused" : "Focus Session"}
+                  Focus Session
                 </span>
+                <span className="ml-auto text-xs font-semibold text-primary/70">START 25:00</span>
               </div>
+            )}
 
-              <div className="text-center mb-4 relative z-10">
-                <div className="text-4xl font-mono font-bold tracking-widest tabular-nums text-text-main drop-shadow-lg">
-                  {formatTime(sessionSeconds)}
+            {focusActive && (
+              <>
+                <div className="flex items-center justify-between mb-4 relative z-10 w-full">
+                  <div className="flex items-center gap-2">
+                    <div
+                      className={`w-2 h-2 rounded-full shadow-[0_0_8px_currentColor] ${!focusPaused ? "bg-primary text-primary animate-pulse" : "bg-amber-500 text-amber-500"}`}
+                    />
+                    <span className="text-[10px] font-bold tracking-widest uppercase text-text-muted">
+                      {focusPaused ? "Paused" : "Deep Focus"}
+                    </span>
+                  </div>
                 </div>
-              </div>
 
-              <div className="flex gap-2 relative z-10">
-                <button onClick={toggleFocus} className="flex-1 btn-primary">
-                  {focusPaused ? "Resume" : "Pause"}
-                </button>
-                <button
-                  onClick={stopFocus}
-                  className="p-3 bg-red-500/10 text-red-400 rounded-2xl hover:bg-red-500/20 transition-colors"
-                  title="End Session"
-                >
-                  <Square size={18} />
-                </button>
-              </div>
-            </>
-          )}
-        </div>
+                <div className="flex justify-center mb-6 relative z-10">
+                  {/* Circular Progress Ring */}
+                  <div className="relative w-40 h-40 flex items-center justify-center">
+                    <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                      {/* Background Track */}
+                      <circle
+                        cx="50"
+                        cy="50"
+                        r="45"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                        className="text-black/5 dark:text-white/5"
+                      />
+                      {/* Progress Track (Pomodoro = 25 mins = 1500 sec) */}
+                      <circle
+                        cx="50"
+                        cy="50"
+                        r="45"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                        strokeLinecap="round"
+                        className={`${!focusPaused ? "text-primary transition-all duration-1000 ease-linear" : "text-amber-500"}`}
+                        strokeDasharray="282.74" /* 2 * PI * 45 */
+                        strokeDashoffset={282.74 - (282.74 * Math.min(sessionSeconds, 1500)) / 1500}
+                      />
+                    </svg>
 
-        {/* ── 3. Today's Stats (Real Data) ── */}
+                    <div className="absolute flex flex-col items-center justify-center">
+                      <span className="text-3xl font-mono font-bold tracking-wider text-text-main drop-shadow-md">
+                        {formatTime(sessionSeconds)}
+                      </span>
+                      {sessionSeconds >= 1500 && (
+                        <span className="text-[10px] font-bold text-green-500 mt-1 uppercase tracking-widest bg-green-500/10 px-2 py-0.5 rounded-full">
+                          Goal Reached
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex gap-2 relative z-10 w-full">
+                  <button onClick={(e) => { e.stopPropagation(); toggleFocus(); }} className="flex-1 btn-primary text-sm py-2">
+                    {focusPaused ? "Resume" : "Pause"}
+                  </button>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); stopFocus(); }}
+                    className="p-2 min-w-12 flex items-center justify-center bg-red-500/10 text-red-500 rounded-xl hover:bg-red-500/20 transition-colors"
+                    title="End Session"
+                  >
+                    <Square size={16} fill="currentColor" />
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+
+          {/* ── 3. Today's Stats (Real Data) ── */}
         <div className="space-y-2.5">
           <h4 className="text-[10px] font-bold text-text-muted uppercase tracking-wider ml-1">
             Today's Progress

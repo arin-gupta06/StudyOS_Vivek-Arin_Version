@@ -3,8 +3,14 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
+const { RedisStore } = require("rate-limit-redis");
+const redisClient = require("./config/redis");
+const compression = require("compression");
 
 const app = express();
+
+// Enable gzip compression for better performance
+app.use(compression());
 
 const allowedOrigins = process.env.CORS_ORIGINS
   ? process.env.CORS_ORIGINS.split(",").map((o) => o.trim())
@@ -32,11 +38,35 @@ app.use(helmet());
 // Handle OPTIONS preflight for all routes before rate limiting
 app.options("/{*path}", cors(corsOptions));
 
-// Rate limiting — auth routes: 20 requests per 15 minutes per IP
+// Helper to create rate limit Redis stores with unique prefixes
+const createRateLimitStore = (prefix) => {
+  if (redisClient) {
+    return new RedisStore({
+      sendCommand: (...args) => redisClient.sendCommand(args),
+      prefix: prefix,
+    });
+  }
+  return undefined;
+};
+
+// Global API rate limiting
+const globalLimiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 100, // Limit each IP to 100 requests per `window`
+  message: { message: "Too many requests from this IP, please try again after a minute." },
+  store: createRateLimitStore("rl:global:"),
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+// Apply global limiter to all routes except large files uploads if needed
+app.use("/api", globalLimiter);
+
+// Rate limiting â€” auth routes: 20 requests per 15 minutes per IP
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 20,
   message: { message: "Too many requests, please try again later." },
+  store: createRateLimitStore("rl:auth:"),
   standardHeaders: true,
   legacyHeaders: false,
 });

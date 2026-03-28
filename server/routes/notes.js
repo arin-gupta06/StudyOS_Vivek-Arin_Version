@@ -5,12 +5,15 @@ const {
   createNote,
   updateNote,
   deleteNote,
+  reviewFlashcard,
 } = require("../controllers/noteController");
 const { protect } = require("../middleware/authMiddleware");
+const { cache, clearCache } = require("../middleware/cache");
 
-router.get("/", protect, getNotes);
-router.post("/", protect, createNote);
-router.put("/:id", protect, updateNote);
-router.delete("/:id", protect, deleteNote);
+router.get("/", protect, cache(300), getNotes);
+router.post("/", protect, clearCache, createNote);
+router.put("/:id", protect, clearCache, updateNote);
+router.delete("/:id", protect, clearCache, deleteNote);
+router.post("/:id/review", protect, clearCache, reviewFlashcard);
 
 module.exports = router;

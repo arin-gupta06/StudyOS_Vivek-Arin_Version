@@ -40,4 +40,7 @@ const SubjectSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
+// Index to optimize queries for a user's subjects
+SubjectSchema.index({ user: 1 });
+
 module.exports = mongoose.model("Subject", SubjectSchema);

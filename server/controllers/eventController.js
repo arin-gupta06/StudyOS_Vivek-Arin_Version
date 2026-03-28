@@ -4,7 +4,7 @@ const Event = require("../models/Event");
 // @route  GET /api/events
 exports.getEvents = async (req, res) => {
   try {
-    const events = await Event.find({ user: req.user._id }).sort({ date: 1 });
+    const events = await Event.find({ user: req.user._id }).sort({ date: 1 }).lean();
     res.json(events);
   } catch (err) {
     res.status(500).json({ message: "Server error" });

@@ -587,7 +587,7 @@ const StickyNotes = () => {
 
         {/* ── masonry grid ── */}
         {!loading && filtered.length > 0 && (
-          <div className="columns-1 sm:columns-2 xl:columns-3 gap-5 [column-fill:_balance]">
+          <div className="columns-1 sm:columns-2 xl:columns-3 gap-5 [column-fill:balance]">
             <AnimatePresence mode="popLayout">
               {filtered.map((note) => {
                 const c = palette[note.color] || palette.emerald;
@@ -757,8 +757,8 @@ const StickyNotes = () => {
       </main>
 
       {/* Add Note Modal */}
-      {showAddModal && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60] flex items-center justify-center p-4">
+      { showAddModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-60 flex items-center justify-center p-4">
           <div className="bg-surface rounded-3xl p-6 w-full max-w-md shadow-xl border border-border/50 max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-bold text-text-main">New Note</h2>
@@ -956,7 +956,7 @@ const StickyNotes = () => {
 
       {/* Edit Note Modal */}
       {editingNote && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60] flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-60 flex items-center justify-center p-4">
           <div className="bg-surface rounded-3xl p-6 w-full max-w-md shadow-xl border border-border/50 max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-bold text-text-main">Edit Note</h2>
@@ -1162,3 +1162,5 @@ const StickyNotes = () => {
 };
 
 export default StickyNotes;
+ 
+

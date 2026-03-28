@@ -357,9 +357,9 @@ exports.loginUser = async (req, res) => {
 // @access  Private
 exports.getMe = async (req, res) => {
   try {
-    // req.user is set by protect middleware
-    const user = await User.findById(req.user._id).select("-password");
-    res.json(user);
+    // req.user is dynamically injected and verified in the protect middleware
+    // We can directly send it without re-querying the database
+    res.json(req.user);
   } catch (error) {
     res.status(500).json({ message: "Server Error" });
   }
@@ -397,7 +397,7 @@ exports.updateSocialLinks = async (req, res) => {
       req.user._id,
       { socialLinks: cleaned },
       { new: true }
-    ).select('-password');
+    ).select('-password').lean();
 
     res.json(user);
   } catch (error) {
@@ -436,7 +436,7 @@ exports.updateProfile = async (req, res) => {
       req.user._id,
       { $set: updateData },
       { new: true }
-    ).select('-password');
+    ).select('-password').lean();
 
     res.json(user);
   } catch (error) {

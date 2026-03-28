@@ -14,4 +14,7 @@ const FocusSessionSchema = new mongoose.Schema({
   lastPausedAt: { type: Date, default: null },
 });
 
+// Index to quickly fetch a user's completed focus sessions or active sessions
+FocusSessionSchema.index({ user: 1, status: 1 });
+
 module.exports = mongoose.model("FocusSession", FocusSessionSchema);

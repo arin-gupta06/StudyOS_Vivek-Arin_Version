@@ -7,7 +7,9 @@ exports.getActiveSession = async (req, res) => {
     const session = await FocusSession.findOne({
       user: req.user._id,
       status: { $in: ["active", "paused"] },
-    }).sort({ startedAt: -1 });
+    })
+      .sort({ startedAt: -1 })
+      .lean();
 
     if (!session) return res.json({ session: null });
 
@@ -196,7 +198,7 @@ exports.getTodayFocus = async (req, res) => {
       user: req.user._id,
       startedAt: { $gte: startOfDay },
       status: "completed",
-    });
+    }).lean();
 
     const totalSeconds = sessions.reduce(
       (sum, s) => sum + (s.duration || 0),

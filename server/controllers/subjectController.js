@@ -4,9 +4,9 @@ const Subject = require("../models/Subject");
 // @route  GET /api/subjects
 exports.getSubjects = async (req, res) => {
   try {
-    const subjects = await Subject.find({ user: req.user._id }).sort({
-      createdAt: -1,
-    });
+    const subjects = await Subject.find({ user: req.user._id })
+      .sort({ createdAt: -1 })
+      .lean();
     res.json(subjects);
   } catch (err) {
     res.status(500).json({ message: "Server error" });
